@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
+import DraggableFlatList from "react-native-draggable-flatlist";
 import Card from "./Card";
 import Button from "./Button";
-import { Button as RnButton } from "react-native";
 import Edit from "./Edit";
 
 const Phase = ({ phase }) => {
@@ -40,26 +40,27 @@ const Phase = ({ phase }) => {
   };
 
   return (
-    <View>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>{phase.title}</Text>
-          <RnButton title="..." color={"#fff"} />
-        </View>
-
-        <ScrollView>
-          {cards.map((card) => (
-            <View key={card.id}>
-              <Card card={card} onEdit={handleEditCard} />
-              <Button
-                title="Remove Card"
-                onPress={() => handleDeleteCard(card.id)}
-              />
-            </View>
-          ))}
-          <Button title={"+ Add card"} onPress={handleAddCard} />
-        </ScrollView>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>{phase.title}</Text>
       </View>
+
+      <DraggableFlatList
+        data={cards}
+        keyExtractor={(item) => item.id}
+        onDragEnd={({ data }) => setCards(data)}
+        renderItem={({ item, drag }) => (
+          <View style={{ marginBottom: 10 }}>
+            <Card card={item} onEdit={handleEditCard} onLongPress={drag} />
+            <Button
+              title="Remove Card"
+              onPress={() => handleDeleteCard(item.id)}
+            />
+          </View>
+        )}
+      />
+
+      <Button title={"+ Add card"} onPress={handleAddCard} />
 
       <Edit
         visible={editVisible}
@@ -81,11 +82,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 8,
-    paddingBottom: 8,
+    marginBottom: 10,
   },
   title: {
     fontSize: 16,

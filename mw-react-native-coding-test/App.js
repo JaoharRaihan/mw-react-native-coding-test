@@ -6,32 +6,42 @@ import {
   Dimensions,
   Text,
 } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Phase from "./components/Phase";
 import phasesData from "./data/phases.json";
 import Button from "./components/Button";
 
-const Stack = createStackNavigator();
 const screenHeight = Dimensions.get("window").height;
 const screenWidth = Dimensions.get("window").width;
 
 const App = () => {
   const [phases, setPhases] = useState(phasesData);
 
+  const addPhase = () => {
+    const newPhase = {
+      id: Date.now().toString(),
+      title: "New Phase",
+      cards: [],
+    };
+    setPhases([...phases, newPhase]);
+  };
+
   return (
-    <ImageBackground
-      source={require("./assets/background.jpg")}
-      style={styles.backgroundImage}
-      resizeMode="stretch"
-    >
-      <Text style={styles.title}>MW - TODO</Text>
-      <ScrollView horizontal style={styles.container}>
-        {phases.map((phase) => (
-          <Phase key={phase.id} phase={phase} />
-        ))}
-        <Button title={"+ Add phase"} />
-      </ScrollView>
-    </ImageBackground>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ImageBackground
+        source={require("./assets/background.jpg")}
+        style={styles.backgroundImage}
+        resizeMode="stretch"
+      >
+        <Text style={styles.title}>MW - TODO</Text>
+        <ScrollView horizontal style={styles.container}>
+          {phases.map((phase) => (
+            <Phase key={phase.id} phase={phase} />
+          ))}
+          <Button title={"+ Add Phase"} onPress={addPhase} />
+        </ScrollView>
+      </ImageBackground>
+    </GestureHandlerRootView>
   );
 };
 

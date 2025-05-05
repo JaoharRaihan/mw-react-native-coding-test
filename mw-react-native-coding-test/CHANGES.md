@@ -4,9 +4,9 @@
 
 - Added feature to **edit existing cards** (change title and description) using a modal.
 - Added feature to **add new phases** dynamically.
-- Added feature to **add new cards** to a specific phase.
-- Updated `Button.js` to accept `onPress` prop.
-- Updated `Phase.js` to support adding and editing cards via callbacks from `App.js`.
+- Added feature to **add new cards** to a specific phase.I
+- Added feature to **edit** existing cards using a modal.
+- ntroduced **drag-and-drop** for reordering cards.
 
 ## 0.1
 

@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
-const Card = ({ card, onEdit }) => {
+const Card = ({ card, onEdit, onLongPress }) => {
   return (
-    <Pressable onLongPress={() => onEdit(card)}>
+    <Pressable onLongPress={onLongPress} onPress={() => onEdit(card)}>
       <View style={styles.container}>
         <Text style={styles.title}>{card.title}</Text>
         <Text style={styles.description}>{card.description}</Text>
